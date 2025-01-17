@@ -1,7 +1,18 @@
-const Tours = () => {
+import Tour from './tour';
+
+const Tours = ({ tours, removeTour }) => {
   return (
     <section>
-      <h2>tours</h2>
+      <div className='title'>
+        <h2>our tours</h2>
+        <div className='title-underline'></div>
+      </div>
+      <div className='tours'>
+        {tours.map((tour) => {
+          // console.log(tour);
+          return <Tour key={tour.id} {...tour} removeTour={removeTour} />;
+        })}
+      </div>
     </section>
   );
 };
