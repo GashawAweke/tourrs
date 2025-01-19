@@ -12,24 +12,44 @@ const App = () => {
     const newTours = tours.filter((tour) => tour.id !== id);
     setTours(newTours);
   };
+
+  const fetchTours = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(url);
+      const tours = await response.json();
+      setTours(tours);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const fetchTours = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(url);
-        const tours = await response.json();
-        setTours(tours);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    };
     fetchTours();
   }, []);
   if (isLoading) {
     return (
       <main>
         <Loading />
+      </main>
+    );
+  }
+
+  if (tours.length === 0) {
+    return (
+      <main>
+        <div className='titl'>
+          <h2> no tours available</h2>
+          <button
+            type='button'
+            className='btn'
+            onClick={() => fetchTours()}
+            style={{ marginTop: '2rm' }}
+          >
+            refresh
+          </button>
+        </div>
       </main>
     );
   }
